@@ -1,3 +1,17 @@
 spring:
   application:
     name: rabbitmq-producer
+  rabbitmq:
+    host: localhost
+    username: username
+    password: password
+    port: 5672
+    publisher-confirms: true #get ack from broker on message received
+    publisher-returns: true # some messages don't get routed to queue due to missing binding rule
+    #so send those messages back to producer let producer decide what to do with those
+    template:
+      mandatory: true # return unrouted message
+      retry:
+        enabled: true
+        max-attempts: 3
+        initial-interval: 2000ms

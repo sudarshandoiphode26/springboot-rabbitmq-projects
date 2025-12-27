@@ -1,3 +1,23 @@
 spring:
   application:
     name: rabbitmq-consumer
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: username
+    password: password
+    connection-timeout: 10s
+    listener:
+      simple:
+        acknowledge-mode: manual             # Prevent message loss on consumer crash
+        concurrency: 3                       # Min concurrent consumers
+        max-concurrency: 10                  # Scale up under load
+        prefetch: 5                          # Backpressure control
+        retry:
+          enabled: true
+          max-attempts: 3
+          stateless: true
+          initial-interval: 2000ms
+
+server:
+  port: 8081
